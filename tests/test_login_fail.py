@@ -82,3 +82,12 @@ def test_tc09_password_sai_hoa_thuong(login_page):
     login_page.login("huongnt", "123456@UTC")
     assert login_page.has_message([MSG_SAI]), "Không thấy thông báo tài khoản không đúng"
     assert login_page.still_on_login(), "Không được vào trang chủ"
+
+# ---------------------------------------------------------------
+# Loại test case: Đoán lỗi (Error Guessing) - ký tự đặc biệt
+# ---------------------------------------------------------------
+def test_tc10_username_ky_tu_dac_biet(login_page):
+    """TC10: Username chứa ký tự đặc biệt huong@#$% -> tài khoản không đúng."""
+    login_page.login("huong@#$%", "123456@utc")
+    assert login_page.has_message([MSG_SAI]), "Không thấy thông báo tài khoản không đúng"
+    assert login_page.still_on_login(), "Không được vào trang chủ"
