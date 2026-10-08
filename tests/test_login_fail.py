@@ -55,3 +55,12 @@ def test_tc06_username_khoang_trang(login_page):
     login_page.login("   ", "123456@utc")
     assert login_page.has_message([MSG_THIEU_USER, MSG_SAI]), "Không thấy thông báo lỗi"
     assert login_page.still_on_login(), "Không được vào trang chủ"
+
+# ---------------------------------------------------------------
+# Loại test case: Đoán lỗi (Error Guessing) - password chỉ có khoảng trắng
+# ---------------------------------------------------------------
+def test_tc07_password_khoang_trang(login_page):
+    """TC07: Username đúng, password toàn khoảng trắng -> không được đăng nhập."""
+    login_page.login("huongnt", "   ")
+    assert login_page.has_message([MSG_THIEU_PASS, MSG_SAI]), "Không thấy thông báo lỗi"
+    assert login_page.still_on_login(), "Không được vào trang chủ"
