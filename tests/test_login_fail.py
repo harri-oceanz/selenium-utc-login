@@ -73,3 +73,12 @@ def test_tc08_username_viet_hoa(login_page):
     login_page.login("HUONGNT", "123456@utc")
     assert login_page.has_message([MSG_SAI]), "Không thấy thông báo tài khoản không đúng"
     assert login_page.still_on_login(), "Không được vào trang chủ"
+
+# ---------------------------------------------------------------
+# Loại test case: Đoán lỗi (Error Guessing) - phân biệt chữ hoa/thường ở password
+# ---------------------------------------------------------------
+def test_tc09_password_sai_hoa_thuong(login_page):
+    """TC09: Username đúng, password sai chữ hoa 123456@UTC -> tài khoản không đúng."""
+    login_page.login("huongnt", "123456@UTC")
+    assert login_page.has_message([MSG_SAI]), "Không thấy thông báo tài khoản không đúng"
+    assert login_page.still_on_login(), "Không được vào trang chủ"
