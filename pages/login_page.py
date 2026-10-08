@@ -1,49 +1,35 @@
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+
+from pages.base_page import BasePage
 
 URL = "https://vanphongdientu.utc.edu.vn/Login"
 
-# Thông báo mong đợi (theo slide của thầy). Nếu trang thật ghi khác thì sửa ở đây.
+# Thông báo lỗi của trang
 MSG_THIEU_USER = "Bạn chưa nhập tên đăng nhập"
 MSG_THIEU_PASS = "Bạn chưa nhập mật khẩu"
 MSG_SAI = "Tài khoản hoặc mật khẩu không đúng"
 
 
-class LoginPage:
-    """Các thao tác trên trang đăng nhập."""
+class LoginPage(BasePage):
+    """Form đăng nhập."""
 
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
+    USERNAME = (By.NAME, "username")
+    PASSWORD = (By.NAME, "userpwd")
+    LOGIN_BUTTON = (By.XPATH, "//input[@value='Đăng nhập']")
 
-    def open(self):
-        self.driver.get(URL)
-        self.wait.until(EC.presence_of_element_located((By.NAME, "username")))
+    def open_page(self):
+        self.open(URL)
+        self.find(self.USERNAME)
 
     def login(self, user, pwd):
-        ou = self.driver.find_element(By.NAME, "username")
-        op = self.driver.find_element(By.NAME, "userpwd")
-        ou.click()
-        ou.send_keys(user)
-        op.click()
-        op.send_keys(pwd)
-        self.driver.find_element(By.XPATH, "//input[@value='Đăng nhập']").click()
-
-    def page_text(self):
-        return self.driver.find_element(By.TAG_NAME, "body").text
+        self.type(self.USERNAME, user)
+        self.type(self.PASSWORD, pwd)
+        self.click(self.LOGIN_BUTTON)
 
     def has_message(self, messages, timeout=5):
-        """True nếu trang hiện một trong các thông báo trong danh sách."""
-        try:
-            WebDriverWait(self.driver, timeout).until(
-                lambda d: any(m in self.page_text() for m in messages))
-            return True
-        except TimeoutException:
-            return False
+        return self.page_contains_any(messages, timeout)
 
     def still_on_login(self):
         """True nếu vẫn ở trang đăng nhập (chưa vào được trang chủ)."""
         return ("Login" in self.driver.current_url
-                and len(self.driver.find_elements(By.NAME, "userpwd")) > 0)
+                and len(self.find_all(self.PASSWORD)) > 0)
