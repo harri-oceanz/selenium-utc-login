@@ -91,3 +91,12 @@ def test_tc10_username_ky_tu_dac_biet(login_page):
     login_page.login("huong@#$%", "123456@utc")
     assert login_page.has_message([MSG_SAI]), "Không thấy thông báo tài khoản không đúng"
     assert login_page.still_on_login(), "Không được vào trang chủ"
+
+# ---------------------------------------------------------------
+# Loại test case: Phân tích giá trị biên (username vượt độ dài thông thường)
+# ---------------------------------------------------------------
+def test_tc11_username_qua_dai(login_page):
+    """TC11: Username dài 100 ký tự, password đúng -> tài khoản không đúng, trang không lỗi."""
+    login_page.login("a" * 100, "123456@utc")
+    assert login_page.has_message([MSG_SAI]), "Không thấy thông báo tài khoản không đúng"
+    assert login_page.still_on_login(), "Không được vào trang chủ"
