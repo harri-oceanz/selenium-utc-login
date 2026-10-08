@@ -8,7 +8,7 @@ URL = "https://vanphongdientu.utc.edu.vn/Login"
 # Thông báo mong đợi (theo slide của thầy). Nếu trang thật ghi khác thì sửa ở đây.
 MSG_THIEU_USER = "Bạn chưa nhập tên đăng nhập"
 MSG_THIEU_PASS = "Bạn chưa nhập mật khẩu"
-MSG_SAI = "Tài khoản không đúng"
+MSG_SAI = "Tài khoản hoặc mật khẩu không đúng"
 
 
 class LoginPage:

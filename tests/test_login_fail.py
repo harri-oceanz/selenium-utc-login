@@ -19,3 +19,12 @@ def test_tc02_de_trong_password(login_page):
     login_page.login("huongnt", "")
     assert login_page.has_message([MSG_THIEU_PASS]), "Không thấy thông báo thiếu password"
     assert login_page.still_on_login(), "Không được vào trang chủ"
+
+# ---------------------------------------------------------------
+# Loại test case: Phân lớp tương đương (username đúng, password sai)
+# ---------------------------------------------------------------
+def test_tc03_dung_ten_sai_mat_khau(login_page):
+    """TC03: Username đúng huongnt, password sai utc@235 -> tài khoản không đúng."""
+    login_page.login("huongnt", "utc@235")
+    assert login_page.has_message([MSG_SAI]), "Không thấy thông báo tài khoản không đúng"
+    assert login_page.still_on_login(), "Không được vào trang chủ"
