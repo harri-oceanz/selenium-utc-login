@@ -28,3 +28,12 @@ def test_tc03_dung_ten_sai_mat_khau(login_page):
     login_page.login("huongnt", "utc@235")
     assert login_page.has_message([MSG_SAI]), "Không thấy thông báo tài khoản không đúng"
     assert login_page.still_on_login(), "Không được vào trang chủ"
+
+# ---------------------------------------------------------------
+# Loại test case: Phân lớp tương đương (username sai, password đúng)
+# ---------------------------------------------------------------
+def test_tc04_sai_ten_dung_mat_khau(login_page):
+    """TC04: Username sai huongthunguyen, password đúng 123456@utc -> tài khoản không đúng."""
+    login_page.login("huongthunguyen", "123456@utc")
+    assert login_page.has_message([MSG_SAI]), "Không thấy thông báo tài khoản không đúng"
+    assert login_page.still_on_login(), "Không được vào trang chủ"
